@@ -29,9 +29,13 @@ with st.beta_expander("+ click here for Question-Answer Section"):
             ans = pipeline("question-answering")
             answers = ans(question=question, context=sentence, topk=round(topk))
             i = 0
-            for answer in answers:
-                i +=1
-                st.write(f"Asnwer {i}: {answer['answer']}")
+            if round(topk) == 1:
+                i += 1
+                st.write(f"Asnwer {i}: {answers['answer']}")
+            else:
+                for answer in answers:
+                    i +=1
+                    st.write(f"Asnwer {i}: {answer['answer']}")
 
 Like = st.button("Did you like this result!")
 if Like:

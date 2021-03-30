@@ -18,18 +18,20 @@ with st.spinner("Please wait. Shortly AI will summarize your text.."):
         result = summarizer(sentence, max_length=max, min_length=min, do_sample=do_sample)
         st.write(result[0]['summary_text'])
 
-do_you_want_to_ask = st.button("Do you want to ask me something from this article?")
+with st.beta_expander("+ Question/Answer Section"):
 
-if do_you_want_to_ask and len(sentence) < 10:
-    st.warning('Please give me some article to read.')
-elif do_you_want_to_ask and sentence:
+    do_you_want_to_ask = st.button("Do you want to ask me something from this article?")
     question = st.text_input("Do you have any question from this article? I can try to answer.")
+    topk = st.number_input("How many answers you want?", min_value=1, max_value=5, step=1)
     ask = st.button("Ask")
     with st.spinner("Please wait..."):
         if ask and sentence:
             ans = pipeline("question-answering")
-            answer = ans(question=question, context=sentence)
-            st.write(f"Answer : {answer['answer']}")
+            answers = ans(question=question, context=sentence, topk=round(topk))
+            i = 0
+            for answer in answers:
+                i +=1
+                st.write(f"Asnwer {i}: {answer['answer']}")
 
 Like = st.button("Did you like this result!")
 if Like:

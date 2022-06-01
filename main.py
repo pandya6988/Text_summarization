@@ -18,7 +18,7 @@ with st.spinner("Please wait. Shortly AI will summarize your text.."):
         result = summarizer(sentence, max_length=max, min_length=min, do_sample=do_sample)
         st.write(result[0]['summary_text'])
 
-with st.beta_expander("+ click here for Question-Answer Section"):
+with st.expander("+ click here for Question-Answer Section"):
 
     do_you_want_to_ask = st.button("Do you want to ask me something from this article?")
     question = st.text_input("Do you have any question from this article? I can try to answer.")
